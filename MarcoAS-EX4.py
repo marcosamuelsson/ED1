@@ -1,3 +1,6 @@
+from heapq import merge
+
+
 class ListaDupla:
 
     class NoListaDupla:
@@ -145,25 +148,62 @@ class ListaDupla:
             return False
 
     def merge(self, l):
+        p = self.__prim
+        q = l.__prim
+        s = None
+        
+        if not p:
+            return q
+        if not q:
+            return p
+        
+        if p and q:
+            if p.info <= q.info:
+                s = p
+                p = s.prox
+            else:
+                s = q
+                q = s.prox
+            newHead = s
+        while p and q:
+            if p.info <= q.info:
+                s.prox = p
+                s = p
+                p = s.prox
+                
+            else:
+                s.prox = q
+                s = q
+                q = s.prox
+        
+        if not p :
+            s.prox = q
+        if not q:
+            s.prox = p
+        return newHead
+        
 
-        # MAIN
+# MAIN
+print("Os resultados de cada operção estão à seguir: \n")
+
 l1 = ListaDupla()
-l1.insere(3)
+l1.insere(5)
 l1.insere(2)
-l1.insere(9)
+l1.insere(1)
 l1.imprime()
-print("O tamanho dessa lista é:", l1.comprimento())
+print("O tamanho dessa lista é:", l1.comprimento(),"\n")
+
 
 l2 = ListaDupla()
-l2.insere(3)
+l2.insere(6)
+l2.insere(4)
 l2.insere(2)
-l2.insere(9)
+l2.insere(1)
 l2.imprime()
-l2.retira(2)
-l2.insereFim(0)
-l2.imprime()
-print("O tamanho dessa lista é:", l2.comprimento())
+print("O tamanho dessa lista é:", l2.comprimento(),"\n")
 
-
-print(l1.igual(l2))
+print("A lista 1 é igual à lista 2:", l1.igual(l2),'\n')
 l1.merge(l2)
+l1.imprime()
+
+print('\n')
