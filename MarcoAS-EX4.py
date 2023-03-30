@@ -1,6 +1,3 @@
-from heapq import merge
-
-
 class ListaDupla:
 
     class NoListaDupla:
