@@ -1,11 +1,13 @@
 class FIla:
     class FilaVetor:
-        def __init__(self): 
-            self.__info = None
-            self.__prox = None
+        def __init__(self):
+            self.__n = 0
+            self.__ini = 0
+            self.__tam = 0
+            self.__vet = []
 
         def FilaVetor(self, tam):
-            self.vet = int[tam]
+            self.vet = [tam]
             self.tam = tam
             self.ini = 0
             self.n = 0
@@ -38,3 +40,8 @@ class FIla:
     def reset(self):
         self.__prim = None
         self.tam == 0
+
+f1 = FIla()
+
+f1.enqueue(5)
+print(f1)
