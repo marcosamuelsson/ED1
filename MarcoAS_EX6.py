@@ -12,9 +12,9 @@ class ArvoreBinaria:
         self.raiz = None
 
     def inserir(self, v):
-        Novo = No(v,None,None)
+        novo = No(v,None,None)
         if self.raiz == None:
-            self.raiz = Novo
+            self.raiz = novo
         else:
             atual = self.raiz
             while True:
@@ -22,15 +22,15 @@ class ArvoreBinaria:
                 if v <= atual.info:
                         atual = atual.sae
                         if atual == None:
-                            anterior.sae = Novo
+                            anterior.sae = novo
                             return
                   
                 else:
                         atual = atual.sad
                         if atual == None:
-                                anterior.sad = Novo
+                                anterior.sad = novo
                                 return
-    def buscar(self, chave):
+    def pertence(self, chave):
         if self.raiz == None:
             return None 
         atual = self.raiz 
@@ -116,26 +116,28 @@ class ArvoreBinaria:
          return self.raiz == None
     
     def imprimeOrdem(self, atual):
+        print("<", end="")
         if atual != None:
             self.imprimeOrdem(atual.sae)
-            print(atual.info,end=" ")
+            print(atual.info,end="")
             self.imprimeOrdem(atual.sad)
+        print(">", end="")
   
     def impriemPre(self, atual):
+        print("<", end="")
         if atual != None:
-            print(atual.info,end='')
-            print("<",end='')
+            print(atual.info, end="")
             self.impriemPre(atual.sae)
             self.impriemPre(atual.sad)
-        print(">",end='')
+        print(">", end="")
        
     def imprimePos(self, atual):
+        print("<", end="")
         if atual != None:
             self.imprimePos(atual.sae)
             self.imprimePos(atual.sad)
-            print(">",end='')
-            print(atual.info,end=" ")
-        print("<",end='')
+            print(atual.info,end="")
+        print(">", end="")
 
     def altura(self, atual):
         if atual == None or atual.sae == None and atual.sad == None:
@@ -161,43 +163,24 @@ class ArvoreBinaria:
             return  1 + self.numNos(atual.sae) + self.numNos(atual.sad)
         
         
-    def pares(self):
-        atual = self.raiz
-        anterior = None
-        while atual != None:
-            anterior = atual
-            atual = atual.sae
-        return anterior
-            
-    def min(self):
-        atual = self.raiz
-        anterior = None
-        while atual != None:
-            anterior = atual
-            atual = atual.sae
-        return anterior
-
-    def max(self):
-        atual = self.raiz
-        anterior = None
-        while atual != None:
-            anterior = atual
-            atual = atual.sad
-        return anterior
-    
+    def pares(self, raiz):
+        v = 0
+        if raiz == None:
+            return 0
+        if raiz.info % 2 == 0:
+            v = v + 1
+        return self.pares(raiz.sae) + self.pares(raiz.sad) + v
+        
     def igual(self, arv):
-        p1 = self.atual
-        p2 = arv.atual
-
-        while (p1 != None) and (p2 != None):
-            if (p1.info != p2.info):
-                return False
-            p1 = p1.sae
-            p2 = p2.sae
+        p1 = self.raiz
+        p2 = arv.raiz
 
         if p1 == p2:
+            print(" As árvpres 1 e 2 são iguais? ", end="")
             return True
-        else: 
+        
+        else:
+            print(" As árvores 1 e 2 são iguais? ", end="")
             return False
 
     def percorrer(self):
@@ -217,38 +200,67 @@ class ArvoreBinaria:
 
         print(" Quantidade de Nós: %d" %(self.numNos(self.raiz)))
 
-
-        if self.raiz != None: # se arvore nao esta vazia
-            print(" A quantidade de números pare é: %d" %(((self.pares().info)%2)==0))
-            print(" Valor minimo: %d" %(self.min().info))
-            print(" Valor maximo: %d" %(self.max().info))
+        print(" Quantidade de pares: %d" %(self.pares(self.raiz)))
 
      
 """    MAIN TESTE COM MENU """
 arvore = ArvoreBinaria()
 
 opcao = 0
-while opcao != 4:
+while opcao != 5:
     print("-----------------------------")
     print("Escolha uma opção:")
     print(" 1: Inserir Número")
     print(" 2: Excluir Número")
-    print(" 3: Exibir Resultados")
-    print(" 4: Sair do programa")
+    print(" 3: Busca")
+    print(" 4: Exibir Resultados")
+    print(" 5: Sair do programa")
     print("-----------------------------")
     opcao = int(input("-- "))
 
     if opcao == 1:
-        x = int(input(" Informe o valor -> "))
+        x = int(input(" Informe o valor: "))
         arvore.inserir(x)
 
     elif opcao == 2:
-        x = int(input(" Digite um número -- "))
+        x = int(input(" Digite um número: "))
         if arvore.remover(x) == False:
             print(" VALOR NÃO VÁLIDO")	 
-
+    
     elif opcao == 3:
-        arvore.percorrer()
+        x = int(input(" Digite um número: "))
+        if arvore.pertence(x) != None:
+            print(" Este valor pertence a árvore.")
+        else:
+            print(" O valor não pertence a árvore.")
 
     elif opcao == 4:
+        arvore.percorrer()
+
+    elif opcao == 5:
         break
+
+
+""" Para testar essas funções basta encerrar o programa inicial """
+p1 = ArvoreBinaria()
+p2 = ArvoreBinaria()
+
+p1.inserir(65)
+p1.inserir(4)
+p1.inserir(7)
+p1.inserir(90)
+
+p2.inserir(65)
+p2.inserir(4)
+p2.inserir(7)
+p2.inserir(90)
+p2.inserir(8)
+
+print()
+print(p1.igual(p2))
+print()
+p1.percorrer()
+
+print()
+p2.percorrer()
+print()
